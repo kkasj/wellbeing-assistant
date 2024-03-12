@@ -17,14 +17,15 @@ import 'package:assistant/pages/loading.dart';
 import 'package:assistant/pages/start.dart';
 import 'package:assistant/utils/theme.dart' as theme;
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  FlutterError.onError = (details) => Snackbars.showMessageSnackbar(
-        title: 'Error',
-        message: details.exceptionAsString(),
-        icon: const ErrorIcon(),
-      );
+  // FlutterError.onError = (details) => Snackbars.showMessageSnackbar(
+  //       title: 'Error',
+  //       message: details.exceptionAsString(),
+  //       icon: const ErrorIcon(),
+  //     );
+  FlutterError.onError = (details) => FlutterError.dumpErrorToConsole(details);
   PlatformDispatcher.instance.onError = (error, stackTrace) {
     FlutterError.reportError(FlutterErrorDetails(exception: error));
     return true;

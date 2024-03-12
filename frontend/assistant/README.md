@@ -1,16 +1,20 @@
-# assistant
+# Mobile app
 
-A new Flutter project.
+## Running the app
 
-## Getting Started
+1. Navigate to the mobile app folder
+```console
+cd frontend/assistant
+```
 
-This project is a starting point for a Flutter application.
+2. Install the dependencies
+```console
+flutter pub get
+```
 
-A few resources to get you started if this is your first Flutter project:
+3. Make sure to have an emulator running or a device connected. You can do that by downloading [Android Studio](https://developer.android.com/studio) and creating a virtual device.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+4. Run the app
+```console
+flutter run
+```

@@ -32,8 +32,6 @@ def get_meal_recommendation(meal_history, available_meals):
             mu = meal_history['weight'].mean()
             sigma = meal_history['weight'].std()
             meal_copy['weight'] = mu - 2*sigma + (i/4) * 4*sigma
-            print(meal_history)
-            print(meal_copy)
             meal_copy = preprocess_meal_target(meal_copy)
             well_being_score = model.predict([meal_history.to_numpy().reshape(1, 10, 12), meal_copy.to_numpy().reshape(1, 7)])
             well_being_scores[(meal["id"], meal_copy.iloc[0]['weight'])] = well_being_score

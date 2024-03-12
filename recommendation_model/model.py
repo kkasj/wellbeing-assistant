@@ -41,45 +41,48 @@ def build_meal_model():
     model.compile(optimizer=Adam(), loss='mse', metrics=['mae'])
 
     # Model summary
-    model.summary()
+    # model.summary()
 
     return model
 
 
 def build_exercise_model():
     # Configuration parameters
-    num_exercises = 10  # Number of unique exercises to choose from
-    sequence_length = 10  # Example sequence length of exercise history
-    num_features = 2  # Number of features per exercise (excluding 'name' for simplicity)
+    sequence_length = 10  # Example sequence length of meal history
+    num_features = 12  # Number of features per meal, adjust based on your actual feature set
+    num_exercise_features = 2  # Assuming the specific meal uses the same feature set
 
-    # Model architecture
-    input_layer = Input(shape=(sequence_length, num_features))
+    # Inputs
+    historical_exercises_input = Input(shape=(sequence_length, num_features), name='historical_exercises')
+    specific_exercise_input = Input(shape=(num_exercise_features,), name='specific_exercise')
 
-    # Masking layer for pre-padding
-    # masked_layer = Masking(mask_value=0.0)(input_layer),  
+    # Mask historical exercises
+    historical_exercises_input = Masking(mask_value=0.0)(historical_exercises_input)
 
-    # LSTM layer(s)
-    lstm_out = LSTM(64)(input_layer)  # Adjust based on dataset complexity
+    # Historical exercises pathway
+    lstm_out = LSTM(64)(historical_exercises_input)
+    lstm_dropout = Dropout(0.5)(lstm_out)
 
-    # Adding a dropout layer for regularization
-    dropout_out = Dropout(0.5)(lstm_out)
+    # Specific exercise pathway
+    specific_exercise_dense = Dense(64, activation='relu')(specific_exercise_input)
+    specific_exercise_dropout = Dropout(0.5)(specific_exercise_dense)
 
-    # Dense layer(s) for further interpretation
-    dense_out = Dense(32, activation='relu')(dropout_out)
+    # Merge pathways
+    merged = concatenate([lstm_dropout, specific_exercise_dropout])
 
-    # Output layer predicts the well-being score
-    well_being_score = Dense(1, activation='linear', name='well_being_output')(dense_out)
+    # Further processing
+    merged_dense = Dense(64, activation='relu')(merged)
+    output_dropout = Dropout(0.5)(merged_dense)
+
+    # Output layer for well-being score prediction
+    well_being_score = Dense(1, activation='linear', name='well_being_output')(output_dropout)
 
     # Compile the model
-    model = Model(inputs=input_layer, outputs=well_being_score)
-    model.compile(optimizer='adam', loss='mse', metrics=['mae'])
+    model = Model(inputs=[historical_exercises_input, specific_exercise_input], outputs=well_being_score)
+    model.compile(optimizer=Adam(), loss='mse', metrics=['mae'])
 
     # Model summary
-    model.summary()
-
-    # Placeholder for training the model
-    # X_train represents sequences of past meals, and y_train represents the well-being scores
-    # model.fit(X_train, y_train, epochs=10, batch_size=32)
+    # model.summary()
 
     return model
 
@@ -93,8 +96,11 @@ def pretrain_meal_model(model, X_train_meal_history, X_train_meal, y_train):
 
     return history
 
-def pretrain_exercise_model(model, X_train, y_train):
+def pretrain_exercise_model(model, X_train_exercise_history, X_train_exercise, y_train):
+    # Pad the exercise history sequences to a fixed length of 10
+    X_train_exercise_history = keras.preprocessing.sequence.pad_sequences(X_train_exercise_history, maxlen=10, padding='post', truncating='post')
+    
     # Pre-training the exercise model
-    history = model.fit(X_train, y_train, epochs=20, batch_size=1)
+    history = model.fit([X_train_exercise_history, X_train_exercise], y_train, epochs=20, batch_size=1, validation_split=0.2, verbose=1)
 
     return history
