@@ -1,9 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from database_modules.database import db
-from database_modules.entities import *
-from routers import auth, users, meals, surveys, exercises, recommendations
+from api.database_modules.database import db
+from api.database_modules.entities import *
+from api.routers import auth, users, meals, surveys, exercises, recommendations
 
 
 app = FastAPI(

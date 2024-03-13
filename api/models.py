@@ -2,7 +2,7 @@ from pydantic import BaseModel, EmailStr, Field
 from typing import Type, Union, Optional
 from datetime import datetime
 
-from enums import *
+from api.enums import *
 
 
 
@@ -49,7 +49,7 @@ class MealDto(BaseModel):
             meal_type = MealType(meal.meal_type)
         )
     
-    
+
 class ExerciseDto(BaseModel):
     id : int = Field(default=...)
     name: str = Field(default=...)
@@ -136,7 +136,7 @@ class SurveyAnswerRequest(BaseModel):
     list_of_answers : list[SurveyAnswerDto] = Field(default=...)
     
 '''
-Internal models (not directy exposed in the communication with the client)
+Internal models (not directly exposed in the communication with the client)
 '''
 
 class CompositeMeal(BaseModel):
@@ -148,18 +148,3 @@ class Activity(BaseModel):
     activity_type : ActivityType = Field(default=...)
     date : datetime = Field(default=...)
     
-
-    
-
-
-
-
-    
-
-
-    
-    
-
-
-    
-

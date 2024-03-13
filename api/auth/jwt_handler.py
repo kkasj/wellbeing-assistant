@@ -4,8 +4,8 @@ from datetime import datetime, timedelta
 from peewee import DoesNotExist
 
 
-from database_modules.entities import User
-from models import UserDto
+from api.database_modules.entities import User
+from api.models import UserDto
 from .config import *
 
 

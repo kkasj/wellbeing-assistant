@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Query, Path, Depends, Body, Form, HTTPException
 from peewee import *
 
-from models import UserDto, ExerciseDto
-from auth.jwt_handler import validate_token
-from database_modules.entities import *
-from enums import *
+from api.models import UserDto, ExerciseDto
+from api.auth.jwt_handler import validate_token
+from api.database_modules.entities import *
+from api.enums import *
 
 router = APIRouter(
     prefix="/exercises",

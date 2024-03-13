@@ -1,7 +1,8 @@
 import pandas as pd
 from api.enums import MealType, ExerciseType, ExerciseCategory
+from api.database_modules.entities import UserMeal, Exercise
 
-def preprocess_meals(meals: list):
+def preprocess_meal_history(meals: list):
     meals_df = pd.DataFrame(meals)
     meals_df = meals_df.drop(columns=["id", "meal_type", "name"])
 

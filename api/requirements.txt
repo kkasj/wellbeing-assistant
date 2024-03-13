@@ -6,3 +6,6 @@ python_jose==3.3.0
 pydantic[email]
 bcrypt
 uvicorn
+python-multipart
+tensorflow
+keras

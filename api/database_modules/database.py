@@ -1,3 +1,3 @@
 from peewee import SqliteDatabase
 
-db = SqliteDatabase('assistant.db')
+db = SqliteDatabase('api/assistant.db')

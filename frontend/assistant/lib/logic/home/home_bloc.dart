@@ -74,18 +74,19 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<HomeGetMealProposition>((event, emit) async {
       var accessToken = await preferencesRepo.getSavedAccessToken();
       print('Getting meal proposition');
-      Meal meal = Meal(
-        id: 1,
-        name: 'Chicken with rice',
-        healthIndex: 4,
-        glycemicIndex: 60,
-        protein: 20,
-        fats: 10,
-        carbohydrates: 30,
-        fiber: 5,
-        mealType: MealType.preparedMeal,
-      );
-      // var meal = await httpRepo.getMealProposition(accessToken: accessToken);
+      // Meal meal = Meal(
+      //   id: 1,
+      //   name: 'Chicken with rice',
+      //   healthIndex: 4,
+      //   glycemicIndex: 60,
+      //   protein: 20,
+      //   fats: 10,
+      //   carbohydrates: 30,
+      //   fiber: 5,
+      //   mealType: MealType.preparedMeal,
+      // );
+
+      var meal = await httpRepo.getMealProposition(accessToken: accessToken);
 
       if (meal != null) {
         Snackbars.showMealSnackbar(meal: meal);

@@ -201,6 +201,29 @@ class HttpServiceRepository {
     }
   }
 
+  Future<Meal> getMeal(
+      {required AccessToken accessToken, required int id}) async {
+    var response = await get(
+      Uri.parse('$_apiAddress/meals/$id/'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': '${accessToken.tokenType} ${accessToken.token}',
+      },
+    ).timeout(_timeoutDuration, onTimeout: _throwTimeoutException);
+
+    print('meal');
+    print(response.statusCode);
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      return Meal.fromJson(jsonDecode(response.body));
+    } else if (response.statusCode == 500) {
+      throw HttpServiceServerException();
+    } else {
+      throw Exception();
+    }
+  }
+
   Future<void> sendMeals(
       {required AccessToken accessToken, required List<Meal> meals}) async {
     var response = await post(
@@ -354,6 +377,35 @@ class HttpServiceRepository {
 
     if (response.statusCode == 200) {
       return;
+    } else if (response.statusCode == 500) {
+      throw HttpServiceServerException();
+    } else {
+      throw Exception();
+    }
+  }
+
+  // getMealProposition
+  Future<Meal> getMealProposition({required AccessToken accessToken}) async {
+    var response = await get(
+      Uri.parse('$_apiAddress/recommendations/meal'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': '${accessToken.tokenType} ${accessToken.token}',
+      },
+    ).timeout(_timeoutDuration, onTimeout: _throwTimeoutException);
+
+    print('mealProposition');
+    print(response.statusCode);
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      var responseBody = jsonDecode(response.body);
+      var mealId = responseBody['meal_id'];
+      var weight = responseBody['weight'];
+
+      var meal = await getMeal(accessToken: accessToken, id: mealId);
+
+      return meal..weight = weight;
     } else if (response.statusCode == 500) {
       throw HttpServiceServerException();
     } else {

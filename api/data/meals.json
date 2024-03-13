@@ -1,0 +1,233 @@
+[
+    {
+        "id": 1,
+        "name": "Spaghetti Bolognese",
+        "health_index": 3,
+        "glycemic_index": 52,
+        "protein": 7,
+        "carbohydrates": 15,
+        "fats": 8.5,
+        "fiber": 1,
+        "meal_type": 2
+    },
+    {
+        "id": 2,
+        "name": "Wheat bread",
+        "health_index": 4,
+        "glycemic_index": 70,
+        "protein": 10.7,
+        "carbohydrates": 47.5,
+        "fats": 4.53,
+        "fiber": 4,
+        "meal_type": 1
+    },
+    {
+        "id": 3,
+        "name": "Rye bread",
+        "health_index": 5,
+        "glycemic_index": 65,
+        "protein": 9,
+        "carbohydrates": 48,
+        "fats": 3.3,
+        "fiber": 5.8,
+        "meal_type": 1
+    },
+    {
+        "id": 4,
+        "name": "Tomatoes",
+        "health_index": 5,
+        "glycemic_index": 30,
+        "protein": 1.1,
+        "carbohydrates": 3.8,
+        "fats": 0.2,
+        "fiber": 1.2,
+        "meal_type": 1
+    },
+    {
+        "id": 5,
+        "name": "Cucumber",
+        "health_index": 5,
+        "glycemic_index": 15,
+        "protein": 0.65,
+        "carbohydrates": 3.63,
+        "fats": 0.11,
+        "fiber": 0.5,
+        "meal_type": 1
+    },
+    {
+        "id": 6,
+        "name": "Lard",
+        "health_index": 1,
+        "glycemic_index": 0,
+        "protein": 0,
+        "carbohydrates": 0,
+        "fats": 100,
+        "fiber": 0,
+        "meal_type": 1
+    },
+    {
+        "id": 7,
+        "name": "Mayonnaise",
+        "health_index": 1,
+        "glycemic_index": 60,
+        "protein": 0.96,
+        "carbohydrates": 0.57,
+        "fats": 74.8,
+        "fiber": 0,
+        "meal_type": 1
+    },
+    {
+        "id": 8,
+        "name": "Tomato soup",
+        "health_index": 4,
+        "glycemic_index": 38,
+        "protein": 0.8,
+        "carbohydrates": 7,
+        "fats": 0.3,
+        "fiber": 0,
+        "meal_type": 2
+    },
+    {
+        "id": 9,
+        "name": "Chocolate",
+        "health_index": 2,
+        "glycemic_index": 49,
+        "protein": 7.65,
+        "carbohydrates": 59.4,
+        "fats": 29.7,
+        "fiber": 3.4,
+        "meal_type": 1
+    },
+    {
+        "id": 10,
+        "name": "Natural yogurt",
+        "health_index": 4,
+        "glycemic_index": 35,
+        "protein": 5,
+        "carbohydrates": 1.5,
+        "fats": 1.5,
+        "fiber": 0,
+        "meal_type": 1
+    },
+    {
+        "id": 11,
+        "name": "Apple",
+        "health_index": 4,
+        "glycemic_index": 36,
+        "protein": 0.3,
+        "carbohydrates": 14,
+        "fats": 0.2,
+        "fiber": 1.3,
+        "meal_type": 1
+    },
+    {
+        "id": 12,
+        "name": "Pizza",
+        "health_index": 2,
+        "glycemic_index": 60,
+        "protein": 11,
+        "carbohydrates": 33,
+        "fats": 10,
+        "fiber": 0,
+        "meal_type": 2
+    },
+    {
+        "id": 13,
+        "name": "Pierogi",
+        "health_index": 3,
+        "glycemic_index": 76,
+        "protein": 6.6,
+        "carbohydrates": 26.6,
+        "fats": 6.1,
+        "fiber": 1.2,
+        "meal_type": 2
+    },
+    {
+        "id": 14,
+        "name": "Egg",
+        "health_index": 3,
+        "glycemic_index": 0,
+        "protein": 12.6,
+        "carbohydrates": 0.72,
+        "fats": 9.51,
+        "fiber": 0,
+        "meal_type": 1
+    },
+    {
+        "id": 15,
+        "name": "Gouda cheese",
+        "health_index": 4,
+        "glycemic_index": 27,
+        "protein": 24.94,
+        "carbohydrates": 2.22,
+        "fats": 27.44,
+        "fiber": 0,
+        "meal_type": 1
+    },
+    {
+        "id": 16,
+        "name": "Chicken breast",
+        "health_index": 2,
+        "glycemic_index": 0,
+        "protein": 31,
+        "carbohydrates": 0,
+        "fats": 3.57,
+        "fiber": 0,
+        "meal_type": 1
+    },
+    {
+        "id": 17,
+        "name": "Potato",
+        "health_index": 4,
+        "glycemic_index": 86,
+        "protein": 2.5,
+        "carbohydrates": 21.15,
+        "fats": 0.13,
+        "fiber": 2.2,
+        "meal_type": 1
+    },
+    {
+        "id": 18,
+        "name": "Carrot",
+        "health_index": 5,
+        "glycemic_index": 30,
+        "protein": 0.93,
+        "carbohydrates": 9.58,
+        "fats": 0.24,
+        "fiber": 2.8,
+        "meal_type": 1
+    },
+    {
+        "id": 19,
+        "name": "Hamburger",
+        "health_index": 2,
+        "glycemic_index": 66,
+        "protein": 17.08,
+        "carbohydrates": 24.01,
+        "fats": 14.36,
+        "fiber": 0.9,
+        "meal_type": 2
+    },
+    {
+        "id": 20,
+        "name": "Tacos",
+        "health_index": 3,
+        "glycemic_index": 70,
+        "protein": 9,
+        "carbohydrates": 20,
+        "fats": 13,
+        "fiber": 1,
+        "meal_type": 2
+    },
+    {
+        "id": 21,
+        "name": "Chicken soup",
+        "health_index": 3,
+        "glycemic_index": 52,
+        "protein": 2.52,
+        "carbohydrates": 3.53,
+        "fats": 1.2,
+        "fiber": 0,
+        "meal_type": 2
+    }
+]

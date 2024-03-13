@@ -1,0 +1,98 @@
+[
+    {
+        "id": 1,
+        "name": "Marching in place",
+        "exercise_type": 2,
+        "category": "Cardio"
+    },
+    {
+        "id": 2,
+        "name": "Running",
+        "exercise_type": 2,
+        "category": "Cardio"
+    },
+    {
+        "id": 3,
+        "name": "Cycling",
+        "exercise_type": 2,
+        "category": "Cardio"
+    },
+    {
+        "id": 4,
+        "name": "Swimming",
+        "exercise_type": 2,
+        "category": "Cardio"
+    },
+    {
+        "id": 5,
+        "name": "Jumping rope",
+        "exercise_type": 2,
+        "category": "Cardio"
+    },
+    {
+        "id": 6,
+        "name": "Squats",
+        "exercise_type": 1,
+        "category": "Strength"
+    },
+    {
+        "id": 7,
+        "name": "Biceps curls",
+        "exercise_type": 1,
+        "category": "Strength"
+    },
+    {
+        "id": 8,
+        "name": "Pushups",
+        "exercise_type": 1,
+        "category": "Strength"
+    },
+    {
+        "id": 11,
+        "name": "Standing knee lift",
+        "exercise_type": 2,
+        "category": "Balance"
+    },
+    {
+        "id": 12,
+        "name": "Weight shifts",
+        "exercise_type": 2,
+        "category": "Balance"
+    },
+    {
+        "id": 13,
+        "name": "Tai chi",
+        "exercise_type": 2,
+        "category": "Balance"
+    },
+    {
+        "id": 14,
+        "name": "Single knee rotation",
+        "exercise_type": 2,
+        "category": "Flexibility"
+    },
+    {
+        "id": 15,
+        "name": "Forward Fold",
+        "exercise_type": 1,
+        "category": "Flexibility"
+    },
+    {
+        "id": 16,
+        "name": "Toes on Wall Calf Stretch",
+        "exercise_type": 2,
+        "category": "Flexibility"
+    },
+    {
+        "id": 17,
+        "name": "Triceps Stretch",
+        "exercise_type": 2,
+        "category": "Flexibility"
+    },
+    {
+        "id": 18,
+        "name": "Situps",
+        "exercise_type": 1,
+        "category": "Strength"
+    }
+]

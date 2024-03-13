@@ -2,9 +2,9 @@ from fastapi import APIRouter, Query, Path, Depends, Body, Form, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
 from peewee import *
 
-from models import Token, UserRegisterDto
-from auth.jwt_handler import pwd_context, create_access_token, oauth2_scheme, get_password_hash, verify_password, authenticate_user
-from database_modules.entities import User
+from api.models import Token, UserRegisterDto
+from api.auth.jwt_handler import pwd_context, create_access_token, oauth2_scheme, get_password_hash, verify_password, authenticate_user
+from api.database_modules.entities import User
 
 router = APIRouter(
     prefix="/auth",

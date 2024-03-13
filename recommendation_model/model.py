@@ -1,8 +1,12 @@
+import keras
+
 from keras.models import Model
 from keras.layers import Input, LSTM, Dense, Embedding, Flatten, Concatenate, Dropout, Masking, concatenate
 from keras.optimizers import Adam
-import keras
+
 from api.enums import MealType, ExerciseType
+from api.database_modules.entities import UserMeal, UserExercise, Meal, Exercise
+from api.routers.recommendations import get_user_meal_history, get_available_meals
 
 
 def build_meal_model():
@@ -104,3 +108,11 @@ def pretrain_exercise_model(model, X_train_exercise_history, X_train_exercise, y
     history = model.fit([X_train_exercise_history, X_train_exercise], y_train, epochs=20, batch_size=1, validation_split=0.2, verbose=1)
 
     return history
+
+
+def prepare_data_for_meal_model_pretraining():
+    available_meals = get_available_meals()
+
+
+if __name__ == '__main__':
+    prepare_data_for_meal_model_pretraining()

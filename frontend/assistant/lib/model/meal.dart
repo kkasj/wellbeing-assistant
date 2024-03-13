@@ -42,6 +42,22 @@ class Meal {
   });
 
   factory Meal.fromJson(Map<String, dynamic> json) {
+    var weight = json['weight'];
+
+    if (weight != null) {
+      return Meal(
+        id: json['meal_id'],
+        name: json['name'],
+        healthIndex: json['health_index'],
+        glycemicIndex: json['glycemic_index'],
+        protein: json['protein'],
+        carbohydrates: json['carbohydrates'],
+        fats: json['fats'],
+        fiber: json['fiber'],
+        mealType: MealType.values[json['meal_type'] - 1],
+      )..weight = weight;
+    }
+
     return Meal(
       id: json['id'],
       name: json['name'],

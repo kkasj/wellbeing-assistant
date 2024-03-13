@@ -1,5 +1,8 @@
+import keras.preprocessing
+
 from keras.models import load_model
 from recommendation_model.preprocessing import *
+
 
 def load_model_meals():
     return load_model('recommendation_model/model_meals.h5')
@@ -15,40 +18,49 @@ def save_model_exercises(model):
     model.save('recommendation_model/model_exercises.h5')
 
 
+def get_wellbeing_score(model, user_meal_history, user_meal):
+    user_meal_history = preprocess_meal_history(user_meal_history)
+    user_meal = preprocess_meal_target(user_meal)
 
-def get_meal_recommendation(meal_history, available_meals):
+    well_being_score = model.predict([user_meal_history.to_numpy().reshape(1, 10, 12), user_meal.to_numpy().reshape(1, 7)])
+
+    return well_being_score
+
+
+def get_meal_recommendation(user_meal_history, available_meals):
     model = load_model_meals()
 
     # preprocess the meal history
-    meal_history = preprocess_meals(meal_history)
+    user_meal_history = preprocess_meal_history(user_meal_history)
+
+    mu = user_meal_history['weight'].mean()
+    sigma = user_meal_history['weight'].std()
+
+    user_meal_history = user_meal_history.to_numpy().reshape(1, -1, 12)
+    user_meal_history = keras.preprocessing.sequence.pad_sequences(user_meal_history, maxlen=10, padding='post', truncating='post')
 
     # iterate through each meal in available_meals
     # and 5 weights for each meal, between mu - 2*sigma and mu + 2*sigma, where mu is the mean and sigma is the standard deviation for the weights in meal history
     # and calculate the well-being score for each meal
-    well_being_scores = {}
+    best_user_meal = None
+    best_user_meal_weight = None
+    best_user_meal_score = None
     for meal in available_meals:
         for i in range(5):
-            meal_copy = meal.copy()
-            mu = meal_history['weight'].mean()
-            sigma = meal_history['weight'].std()
-            meal_copy['weight'] = mu - 2*sigma + (i/4) * 4*sigma
-            meal_copy = preprocess_meal_target(meal_copy)
-            well_being_score = model.predict([meal_history.to_numpy().reshape(1, 10, 12), meal_copy.to_numpy().reshape(1, 7)])
-            well_being_scores[(meal["id"], meal_copy.iloc[0]['weight'])] = well_being_score
+            user_meal = meal.copy()
+            weight = mu - 2*sigma + (i/4) * 4*sigma
+            user_meal['weight'] = weight
+            user_meal = preprocess_meal_target(user_meal)
+
+            well_being_score = model.predict([user_meal_history, user_meal.to_numpy().reshape(1, 7)])
+
+            if best_user_meal_score is None or well_being_score > best_user_meal_score:
+                best_user_meal = meal
+                best_user_meal_weight = weight
+                best_user_meal_score = well_being_score
 
 
-    # make the recommendation
-    # well_being_scores is a dictionary with keys being tuples of (meal id, weight) and values being the well-being score
-    # we want to find the meal and weight that has the highest well-being score
-    tup = max(well_being_scores, key=well_being_scores.get)
-
-    recommended_meal_id = tup[0]
-    recommended_meal_weight = tup[1]
-
-    recommended_meal = [available_meals for meal in available_meals if meal['id'] == recommended_meal_id][0]
-    recommended_meal['weight'] = recommended_meal_weight
-
-    return recommended_meal
+    return (best_user_meal, best_user_meal_weight, best_user_meal_score[0][0])
 
 
 # def feedback()

@@ -3,10 +3,10 @@ from peewee import *
 from typing import Union, Optional
 import datetime
 
-from models import UserDto, SurveyDto, QuestionDto
-from auth.jwt_handler import validate_token
-from database_modules.entities import *
-from enums import SurveyType, ActivityType
+from api.models import UserDto, SurveyDto, QuestionDto
+from api.auth.jwt_handler import validate_token
+from api.database_modules.entities import *
+from api.enums import SurveyType, ActivityType
 from .users import get_activities
 
 router = APIRouter(

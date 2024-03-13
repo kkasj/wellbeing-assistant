@@ -1,3 +1,6 @@
 __pycache__
 *.pyc
 .vs
+.python-version
+model.ipynb
+.venv
