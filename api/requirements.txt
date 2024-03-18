@@ -7,5 +7,6 @@ pydantic[email]
 bcrypt
 uvicorn
 python-multipart
-tensorflow
-keras
+tensorflow==2.14.0
+pandas
+numpy

@@ -16,7 +16,7 @@ router = APIRouter(
     prefix="/recommendations",
 )
 
-@router.get('/meal', response_model=UserMealDto, tags=['recommendations'])
+@router.get('/meal', response_model=MealDto, tags=['recommendations'])
 def get_meal_recommendation(user: UserDto = Depends(validate_token)):
     '''
     Returns a meal recommendation for the user
@@ -25,11 +25,11 @@ def get_meal_recommendation(user: UserDto = Depends(validate_token)):
     meal_history = get_user_meal_history(user)
     available_meals = get_available_meals()
     
-    recommended_meal, weight, wellbeing_score = rec_interface.get_meal_recommendation(meal_history, available_meals)
+    recommended_meal, wellbeing_score = rec_interface.get_meal_recommendation(meal_history, available_meals)
 
     # recommended meal is now a dictionary with the meal and the weight
     # turn the recommended meal into a UserCompositeMealDto
-    recommended_meal = MealDto(meal_id=recommended_meal['id'], weight=weight)
+    recommended_meal = MealDto.from_dict(recommended_meal)
 
     return recommended_meal
 
@@ -57,13 +57,9 @@ def get_user_meal_history(user: UserDto):
     survey_answers = []
     filtered_activities_ids = []
     for activity_id in meals_activities_ids:
-        activity_survey_answers = SurveyAnswer.select().where(SurveyAnswer.activity_id == activity_id)
-        if len(activity_survey_answers) == 0:
-            continue
-        
-        question_answers = [_query_to_value(activity_survey_answers.where(SurveyAnswer.question == question.id).limit(1)) for question in meal_questions]
+        question_answers = _get_survey_answers(activity_id, meal_questions)
 
-        if None in question_answers:
+        if question_answers is None:
             continue
 
         survey_answers.append(question_answers)
@@ -82,6 +78,12 @@ def get_available_meals():
     
     return available_meals
 
+def get_available_exercises():
+    available_exercises: list[Exercise] = list(Exercise.select())
+    available_exercises: list[dict] = [_exercise_to_dict(exercise) for exercise in available_exercises]
+    
+    return available_exercises
+
 def _get_meal_survey_questions():
     meal_survey = list(Survey.select().where(Survey.survey_type == str(SurveyType.MEAL.value)).limit(1))[0]
     meal_survey_questions = list(SurveyQuestion.select().where(SurveyQuestion.survey == meal_survey.id))
@@ -89,6 +91,26 @@ def _get_meal_survey_questions():
     meal_questions = list(Question.select().where(Question.id << meal_questions_ids))
 
     return meal_questions
+
+def _get_exercise_survey_questions():
+    exercise_survey = list(Survey.select().where(Survey.survey_type == str(SurveyType.EXERCISE.value)).limit(1))[0]
+    exercise_survey_questions = list(SurveyQuestion.select().where(SurveyQuestion.survey == exercise_survey.id))
+    exercise_questions_ids = [question.question for question in exercise_survey_questions]
+    exercise_questions = list(Question.select().where(Question.id << exercise_questions_ids))
+
+    return exercise_questions
+
+def _get_survey_answers(activity_id, questions) -> list | None:
+    activity_survey_answers = SurveyAnswer.select().where(SurveyAnswer.activity_id == activity_id)
+    if len(activity_survey_answers) == 0:
+        return None
+    
+    question_answers = [_query_to_value(activity_survey_answers.where(SurveyAnswer.question == question.id).limit(1)) for question in questions]
+
+    if None in question_answers:
+        return None
+
+    return question_answers
 
 
 def _user_meal_to_dict(user_meal, survey_answers):
@@ -120,6 +142,14 @@ def _meal_to_dict(meal):
         "fats": meal.fats,
         "fiber": meal.fiber,
         "meal_type": meal.meal_type,
+    }
+
+def _exercise_to_dict(exercise):
+    return {
+        "id": exercise.id,
+        "name": exercise.name,
+        "exercise_type": exercise.exercise_type,
+        "category": exercise.category,
     }
 
 def _survey_answers_to_dict(survey_answers):

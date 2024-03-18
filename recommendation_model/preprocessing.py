@@ -1,24 +1,32 @@
 import pandas as pd
+import numpy as np
+import keras
+
 from api.enums import MealType, ExerciseType, ExerciseCategory
 from api.database_modules.entities import UserMeal, Exercise
 
-def preprocess_meal_history(meals: list):
-    meals_df = pd.DataFrame(meals)
-    meals_df = meals_df.drop(columns=["id", "meal_type", "name"])
+def preprocess_meal_history(meals: list[dict]) -> np.ndarray:
+    if len(meals) == 0:
+        return np.zeros((1, 10, 12))
+
+    meal_history_df = pd.DataFrame(meals)
+    meal_history_df = meal_history_df.drop(columns=["id", "meal_type", "name"])
 
     # normalize weight
-    meals_df["weight"] = meals_df["weight"] / meals_df["weight"].max()
+    meal_history_df["weight"] = meal_history_df["weight"] / meal_history_df["weight"].max()
 
-    return meals_df
+    meal_history = meal_history_df.to_numpy().reshape(1, -1, 12)
+    meal_history = keras.preprocessing.sequence.pad_sequences(meal_history, maxlen=10, padding='post', truncating='pre')
 
-def preprocess_meal_target(meal: dict):
+    return meal_history
+
+def preprocess_meal_target(meal: dict) -> np.ndarray:
     meal_df = pd.DataFrame([meal])
     meal_df = meal_df.drop(columns=["id", "meal_type", "name"])
 
-    # normalize weight
-    meal_df["weight"] = meal_df["weight"] / meal_df["weight"].max()
+    meal = meal_df.to_numpy().reshape(1, 6)
 
-    return meal_df
+    return meal
 
 def preprocess_exercises(exercises: dict):
     exercises_df = pd.DataFrame(exercises)

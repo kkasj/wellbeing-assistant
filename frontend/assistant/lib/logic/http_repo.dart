@@ -400,12 +400,7 @@ class HttpServiceRepository {
 
     if (response.statusCode == 200) {
       var responseBody = jsonDecode(response.body);
-      var mealId = responseBody['meal_id'];
-      var weight = responseBody['weight'];
-
-      var meal = await getMeal(accessToken: accessToken, id: mealId);
-
-      return meal..weight = weight;
+      return Meal.fromJson(responseBody);
     } else if (response.statusCode == 500) {
       throw HttpServiceServerException();
     } else {

@@ -1,30 +1,30 @@
-from enum import Enum
+from enum import Enum, auto
 
 class MealType(Enum):
-    INGREDIENT = 1
-    PREPERED_MEAL = 2
+    INGREDIENT = auto()
+    PREPERED_MEAL = auto()
     
 class ExerciseType(Enum):
-    REPETITIONS = 1
-    TIMED = 2
+    REPETITIONS = auto()
+    TIMED = auto()
     
 class SurveyType(Enum):
-    MEAL = 1
-    #POST_MEAL = 2
-    EXCERCISE = 2
-    #POST_EXERCISE = 4
-    #WELL_BEING = 5
-    NONE = 6
+    MEAL = auto()
+    #POST_MEAL = auto()
+    EXERCISE = auto()
+    #POST_EXERCISE = auto()
+    #WELL_BEING = auto()
+    NONE = auto()
     
 class ActivityType(Enum):
-    MEAL = 1
-    EXERCISE = 2
+    MEAL = auto()
+    EXERCISE = auto()
     
 
 class ExerciseCategory(Enum):
-    CARDIO = 1
-    STRENGTH = 2
-    FLEXIBILITY = 3
-    BALANCE = 4
-    FUNCTIONAL = 5
+    CARDIO = auto()
+    STRENGTH = auto()
+    FLEXIBILITY = auto()
+    BALANCE = auto()
+    FUNCTIONAL = auto()
     

@@ -7,7 +7,7 @@ from api.routers import auth, users, meals, surveys, exercises, recommendations
 
 
 app = FastAPI(
-    title="Wellbeing Assistant API",
+    title="Well-being Assistant API",
     debug = True,
 )
 

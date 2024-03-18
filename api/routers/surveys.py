@@ -73,7 +73,7 @@ def __map_survey_type(activity_type : ActivityType, date) -> SurveyType:
     #         return SurveyType.POST_MEAL
     
     if activity_type == ActivityType.EXERCISE:
-        return SurveyType.EXCERCISE
+        return SurveyType.EXERCISE
     elif activity_type == ActivityType.MEAL:
         return SurveyType.MEAL
     

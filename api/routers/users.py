@@ -4,7 +4,11 @@ from peewee import *
 from api.models import Token, UserDto, UserMealDto, UserCompositeMealDto, UserExerciseDto, SurveyAnswerRequest, ActivityDetailsRequest, Activity
 from api.auth.jwt_handler import pwd_context, create_access_token, oauth2_scheme, validate_token, get_password_hash, verify_password, authenticate_user
 from api.database_modules.entities import User, UserMeal, UserExercise, Survey, Question, SurveyAnswer, Meal, Exercise
-from api.enums import ActivityType
+from api.enums import ActivityType, SurveyType
+# from api.routers.recommendations import _get_meal_survey_questions, _survey_answers_to_dict
+
+from recommendation_model.interface import update_meal_model
+
 
 router = APIRouter(
     prefix="/users",
@@ -41,7 +45,28 @@ async def add_survey_answers_to_user(survey_answer_request : SurveyAnswerRequest
     '''
     Adds survey answers to the user survey history
     '''
-    __add_survey_answers_to_user(user, survey_answer_request)
+
+    # activities = get_activities(user)
+
+    # if activities is None or len(activities) == 0:
+    #     raise HTTPException(status_code=404, detail="No recent activities found")
+
+    # most_recent_activity = activities[0]
+
+    survey_answers = __add_survey_answers_to_user(user, survey_answer_request)
+    # survey_type = survey_answers[0].survey.survey_type
+
+    # match survey_type:
+    #     case SurveyType.MEAL:
+    #         meal_questions = _get_meal_survey_questions()
+    #         survey_answers = sorted(survey_answers, key=lambda x: meal_questions.index(x.question_id))
+
+    #         user_meal_history = [meal.to_dict() for meal in get_activities_meals(user)[1:11]]
+
+    #         update_meal_model(user_meal_history, )
+    #     case SurveyType.EXERCISE:
+    #         pass
+
     return True
 
 @router.get('/history', tags=['users'], response_model=list[Activity])
@@ -77,13 +102,13 @@ def __add_exercise_to_user(user: UserDto, user_exercise_dto : UserExerciseDto):
         repetitions = user_exercise_dto.repetitions
     )
     
-def __add_survey_answers_to_user(user: UserDto, survey_answer_request : SurveyAnswerRequest):
+def __add_survey_answers_to_user(user: UserDto, survey_answer_request : SurveyAnswerRequest) -> list[SurveyAnswer]:
     recent_activities = get_activities(user)
     if recent_activities == None or len(recent_activities) == 0:
         raise HTTPException(status_code=404, detail="No recent activities found")
     most_recent_activity = recent_activities[0]
     
-    
+    survey_answers = []    
     for survey_answer in survey_answer_request.list_of_answers:
         try:
             Survey.get(Survey.id == survey_answer.survey_id)
@@ -95,13 +120,17 @@ def __add_survey_answers_to_user(user: UserDto, survey_answer_request : SurveyAn
         except DoesNotExist:
             raise HTTPException(status_code=404, detail="Question not found")
         
-        SurveyAnswer.create(
+        survey_answer = SurveyAnswer.create(
             survey_id = survey_answer.survey_id,
             question_id = survey_answer.question_id,
             answer_score = survey_answer.answer_score,
             activity_id = most_recent_activity.activity_id,
             activity_type = most_recent_activity.activity_type.value
         )
+
+        survey_answers.append(survey_answer)
+    
+    return survey_answers
 
 def __get_user_meals(user: UserDto):
     return (UserMeal
@@ -115,7 +144,7 @@ def __get_user_exercises(user: UserDto):
             .join(Exercise)
             .where(UserExercise.user_id == user.id))
 
-def get_activities(user : UserDto):
+def get_activities(user: UserDto) -> list[Activity]:
     meals = __get_user_meals(user)
     exercises = __get_user_exercises(user)
     if meals.count() == 0 and exercises.count() == 0:
@@ -138,4 +167,14 @@ def get_activities(user : UserDto):
     activities.sort(key=lambda x: x.date, reverse=True)
     return activities
     
-    
+def get_activities_meals(user: UserDto) -> list[UserMeal]:
+    meals = list(__get_user_meals(user))
+    meals.sort(key=lambda x: x.date, reverse=True)
+
+    return meals
+
+def get_activities_exercises(user: UserDto) -> list[UserExercise]:
+    exercises = list(__get_user_exercises(user))
+    exercises.sort(key=lambda x: x.date, reverse=True)
+
+    return exercises

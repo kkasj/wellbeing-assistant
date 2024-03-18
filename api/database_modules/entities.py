@@ -11,6 +11,14 @@ class Exercise(BaseModel):
     name = CharField()
     exercise_type = IntegerField() #enum ExerciseType
     category = CharField()
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "exercise_type": self.exercise_type,
+            "category": self.category,
+        }
     
 class Meal(BaseModel):
     name = CharField()
@@ -21,6 +29,19 @@ class Meal(BaseModel):
     fats = FloatField()
     fiber = FloatField()
     meal_type = IntegerField() #enum MealType
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "health_index": self.health_index,
+            "glycemic_index": self.glycemic_index,
+            "protein": self.protein,
+            "carbohydrates": self.carbohydrates,
+            "fats": self.fats,
+            "fiber": self.fiber,
+            "meal_type": self.meal_type,
+        }
     
 class Survey(BaseModel):
     name = CharField()
@@ -54,11 +75,35 @@ class UserExercise(BaseModel):
     time = IntegerField(null = True) # in minutes
     repetitions = IntegerField(null = True)
 
+    def to_dict(self):
+        return {
+            "id": self.exercise.id,
+            "name": self.exercise.name,
+            "exercise_type": self.exercise.exercise_type,
+            "category": self.exercise.category,
+            "time": self.time,
+            "repetitions": self.repetitions,
+        }
+
 class UserMeal(BaseModel):
     user = ForeignKeyField(User)
     meal = ForeignKeyField(Meal)
     date = DateTimeField(default=datetime.datetime.now)
     weight = IntegerField() # in grams
+
+    def to_dict(self):
+        return {
+            "id": self.meal.id,
+            "name": self.meal.name,
+            "health_index": self.meal.health_index,
+            "glycemic_index": self.meal.glycemic_index,
+            "protein": self.meal.protein,
+            "carbohydrates": self.meal.carbohydrates,
+            "fats": self.meal.fats,
+            "fiber": self.meal.fiber,
+            "meal_type": self.meal.meal_type,
+            "weight": self.weight,
+        }
 
 
 def create_tables():

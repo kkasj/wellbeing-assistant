@@ -49,6 +49,20 @@ class MealDto(BaseModel):
             meal_type = MealType(meal.meal_type)
         )
     
+    @staticmethod
+    def from_dict(meal):
+        return MealDto(
+            id = meal['id'],
+            name = meal['name'],
+            health_index = meal['health_index'],
+            glycemic_index = meal['glycemic_index'],
+            protein = meal['protein'],
+            carbohydrates = meal['carbohydrates'],
+            fats = meal['fats'],
+            fiber = meal['fiber'],
+            meal_type = MealType(meal['meal_type'])
+        )
+    
 
 class ExerciseDto(BaseModel):
     id : int = Field(default=...)
